@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/fromPoint"
+            style="@style/MyTextView"
+            android:padding="15dp"
+            android:layout_toLeftOf="@+id/imgArrow"
+            android:layout_alignParentLeft="true"
+            android:spinnerMode="dropdown" />
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tripNumber"
+            android:layout_below="@+id/fromPoint">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_trip_number"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:id="@+id/tripNumberText"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="20dp" />
+
+            <EditText
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tripNumberField"
+
+                android:hint="@string/hint_trip_number"
+                android:layout_toRightOf="@+id/tripNumberText"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgArrow"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/arrow_right"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To"
+            android:id="@+id/toPoint"
+            android:layout_alignParentRight="true"
+            style="@style/MyTextView"
+            android:padding="15dp"
+            android:layout_toRightOf="@+id/imgArrow" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="from"
+            android:id="@+id/busSpinner"
+            android:padding="15dp"
+            android:spinnerMode="dropdown"
+            android:layout_below="@+id/tripNumber" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_create_route"
+            android:id="@+id/createRouteBtn"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recycler_view"
+    android:background="@drawable/car_bckg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/item_margin"
+    android:clipToPadding="false"/>
