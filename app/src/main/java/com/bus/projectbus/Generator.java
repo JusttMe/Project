@@ -29,10 +29,4 @@ public class Generator extends Fragment {
         return v;
     }
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
-
-    }*/
 }
