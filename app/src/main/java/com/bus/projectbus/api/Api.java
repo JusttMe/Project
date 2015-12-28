@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,15 +25,15 @@ import org.json.JSONObject;
 /**
  * Created by End on 20-Dec-15.
  */
-public class Api {
+public class Api implements OnBackoffListener{
     public static final String SAVE_TOKEN = "token";
-    public static final String URL ="http://bus-nikichxp.rhcloud.com/api/";
+    public static final String URL ="http://buds-nikichxp.rhcloud.com/api/";
     public static final String TEST_GET_CARS ="{\"cars\":[{\"id\":\"1\",\"brand\":\"name\",\"seats\":50},{\"id\":\"2\",\"brand\":\"name\",\"seats\":50}]}";
     public static final String TEST_GET_TOWNS ="{\"towns\":[{\"id\":\"1\",\"name\":\"town1\"},{\"id\":\"2\",\"name\":\"town2\"}]}";
 
     RequestQueue mQueue;
 
-    JsonObjectRequest jsonObjectRequest;
+    JsonObjectRequest jsonObjectRequest, stackJOR;
     private Context ctx;
     private OnRegisterListener mRegisterListener;
     private OnAuthListener mAuthListener;
@@ -42,6 +43,7 @@ public class Api {
     private OnRemoveClientListener mRemoveClientListener;
     private OnGetCarListener mGetCarListener;
     private OnGetTownsListener mGetTownsListener;
+    private OnBackoffListener mBackoffListener;
     private Gson gson;
     public RouteEntity mRoute;
     public Api(Context context){
@@ -77,14 +79,18 @@ public class Api {
                }, new Response.ErrorListener() {
                    @Override
                    public void onErrorResponse(VolleyError error) {
-                       try {
-                           Log.d("error", error.getMessage());
-                       }catch (NullPointerException e){
-                           Toast.makeText(ctx, "Server error", Toast.LENGTH_SHORT).show();
-                       }
+                       //try {
+                           Log.d("VolleyError", "Error: "+error.getMessage());
+                          //  mBackoffListener.onBackoff(true, stackJOR);
+
+                       //}catch (NullPointerException e){
+                      //     Toast.makeText(ctx, "Server error", Toast.LENGTH_SHORT).show();
+                      // }
                    }
                });
-       mQueue.add(jsonObjectRequest);
+        stackJOR = jsonObjectRequest;
+        //jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 2, 1.5f));
+        mQueue.add(jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 2, 1.5f)));
            }
 
     public  void register(UserEntity user){
@@ -130,7 +136,7 @@ public class Api {
     public  void getCars(){
         gson = new Gson();
 
-       /* String URL_Request = URL+"data/getCar";
+        String URL_Request = URL+"data/getCar";
         Log.d("q getCar", URL_Request);
         jsonObjectRequest =
                 new JsonObjectRequest(Request.Method.GET, URL_Request, new Response.Listener<JSONObject>() {
@@ -153,27 +159,18 @@ public class Api {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         try {
-                            Log.d("error", error.getMessage());
+                            Log.d("error", "Error: "+error.getMessage());
                         }catch (NullPointerException e){
                             Toast.makeText(ctx, "Server error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
+
+
         mQueue.add(jsonObjectRequest);
-*/
 
-        try {
-            JSONObject js = new JSONObject(TEST_GET_CARS);
-            String s = js.getString("error");
-            Toast.makeText(ctx, "Error: "+s, Toast.LENGTH_SHORT).show();
-        } catch (JSONException e) {
-            if (e.getMessage().equals("No value for error")){
-                CarsEntity cars = gson.fromJson(TEST_GET_CARS, CarsEntity.class);
-
-                mGetCarListener.onGetCar(cars);
-
-
-    }}}
+    }
 
     public  void getTowns(){
         gson = new Gson();
@@ -384,6 +381,15 @@ public class Api {
 
     }
 
+
+    @Override
+    public void onBackoff(boolean b, JsonObjectRequest request) {
+        if (b){
+            mQueue.add(jsonObjectRequest);
+        }
+    }
+
+
     public void setOnAuthListener(OnAuthListener listener){
         mAuthListener = listener;
     }
@@ -408,5 +414,10 @@ public class Api {
     public void setOnGetPointsListener(OnGetTownsListener listener) {
         mGetTownsListener = listener;
     }
+    public void setOnBackoffListener(OnBackoffListener listener) {
+        mBackoffListener = listener;
+    }
+
+
 }
 
