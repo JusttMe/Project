@@ -91,7 +91,7 @@ public class Api implements OnBackoffListener{
         stackJOR = jsonObjectRequest;
         //jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 2, 1.5f));
         mQueue.add(jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 2, 1.5f)));
-        
+
            }
 
     public  void register(UserEntity user){
