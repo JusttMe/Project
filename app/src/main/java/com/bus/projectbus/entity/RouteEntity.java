@@ -8,7 +8,7 @@ public class RouteEntity {
     private String from;
     private String to;
     private int tripNumber;
-    private ArrayList<CarsDescribe> car; //TODO not ArrayList<CarsDescribe> . just CarsDescribe
+    private CarsDescribe car; //TODO not ArrayList<CarsDescribe> . just CarsDescribe
     private ArrayList<Integer> takenSeats;
 
     public RouteEntity(String from, String to, int tripNumber) {
@@ -29,7 +29,7 @@ public class RouteEntity {
         return tripNumber;
     }
 
-    public ArrayList<CarsDescribe> getCar() {
+    public CarsDescribe getCar() {
         return car;
     }
 
@@ -41,10 +41,9 @@ public class RouteEntity {
         String buf1 = "";
         String buf2 = "";
         res = from+" || "+to+" || "+tripNumber+" [ ";
-        for (CarsDescribe cd: car) {
-            buf1 = buf1 + cd.getInfo()+" | ";
-        }
-        res = res+buf1+" ] || [ ";
+
+            buf1 = buf1 + car.getInfo()+" | ";
+                res = res+buf1+" ] || [ ";
         for (Integer in: takenSeats) {
             buf2 = buf2 + in+" | ";
         }
@@ -65,7 +64,7 @@ public class RouteEntity {
         this.tripNumber = tripNumber;
     }
 
-    public void setCar(ArrayList<CarsDescribe> car) {
+    public void setCar(CarsDescribe car) {
         this.car = car;
     }
 

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.bus.projectbus.api.Api;
 import com.bus.projectbus.api.OnAuthListener;
@@ -41,10 +42,8 @@ public class LogInActivity extends Activity implements View.OnClickListener, OnA
                 if (checkFields()){
                     break;
                 }
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                //mApi.auth(mLogin, mPass);
+
+                mApi.auth(mLogin, mPass);
                 break;
 
         }
@@ -79,6 +78,7 @@ public class LogInActivity extends Activity implements View.OnClickListener, OnA
         SharedPreferences settings = getSharedPreferences("token", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("token", user.getToken()).commit();
+        Toast.makeText(LogInActivity.this, ""+user.getToken(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

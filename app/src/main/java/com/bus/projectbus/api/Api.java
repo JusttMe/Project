@@ -130,7 +130,7 @@ public class Api {
     public  void getCars(){
         gson = new Gson();
 
-        String URL_Request = URL+"data/getCar";
+       /* String URL_Request = URL+"data/getCar";
         Log.d("q getCar", URL_Request);
         jsonObjectRequest =
                 new JsonObjectRequest(Request.Method.GET, URL_Request, new Response.Listener<JSONObject>() {
@@ -160,7 +160,20 @@ public class Api {
                     }
                 });
         mQueue.add(jsonObjectRequest);
-    }
+*/
+
+        try {
+            JSONObject js = new JSONObject(TEST_GET_CARS);
+            String s = js.getString("error");
+            Toast.makeText(ctx, "Error: "+s, Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            if (e.getMessage().equals("No value for error")){
+                CarsEntity cars = gson.fromJson(TEST_GET_CARS, CarsEntity.class);
+
+                mGetCarListener.onGetCar(cars);
+
+
+    }}}
 
     public  void getTowns(){
         gson = new Gson();
@@ -200,11 +213,10 @@ public class Api {
 
     public  void startRoute(RouteEntity route, String carId, String token){
         gson = new Gson();
-        CarsDescribe cd = route.getCar().get(0);
         String URL_Request = URL+"route/start?"+
                 "from=" + route.getFrom()+
                 "&to=" +route.getTo()+
-                "&carId=" +cd.getId()+
+                "&carId=" +route.getCar().getId()+
                 "&tripNumber=" +route.getTripNumber()+
                 "&token="+token;
         Log.d("q startRoute", URL_Request);

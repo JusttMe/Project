@@ -45,8 +45,8 @@ public class StartFragment extends Fragment implements OnStartRouteListener, OnG
 
         View v =  inflater.inflate(R.layout.create_route_fragment, container, false);
         mApi = new Api(getActivity());
-       // mApi.getTowns();
-       // mApi.getCars();
+        //mApi.getTowns();
+        mApi.getCars();
         mApi.setOnStartRouteListener(this);
         mApi.setOnGetCarListener(this);
         mApi.setOnGetCarListener(this);
@@ -145,17 +145,15 @@ public class StartFragment extends Fragment implements OnStartRouteListener, OnG
 
     @Override
     public void onGetTowns(TownsEntity towns) {
-        ArrayList<String> fromNew = new ArrayList<>();
-        fromNew.add("Початок");
-        ArrayList<String> toNew = new ArrayList<>();
-        toNew.add("Кінець");
+        from.clear();
+        from.add("Початок");
+        to.clear();
+        to.add("Кінець");
         ArrayList<TownsDescribe> townsDescribe = towns.getTowns();
         for (TownsDescribe td: townsDescribe) {
-            fromNew.add(td.getName());
-            toNew.add(td.getName());
+            from.add(td.getName());
+            to.add(td.getName());
         }
-        from = fromNew;
-        to = toNew;
         fromPointAdapter.notifyDataSetChanged();
         toPointAdapter.notifyDataSetChanged();
     }

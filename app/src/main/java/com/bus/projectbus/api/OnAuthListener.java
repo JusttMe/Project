@@ -7,4 +7,6 @@ import com.bus.projectbus.entity.UserEntity;
  */
 public interface OnAuthListener {
     void  onAuth(UserEntity user);
+
+
 }

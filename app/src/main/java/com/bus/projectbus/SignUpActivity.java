@@ -66,10 +66,8 @@ public class SignUpActivity extends Activity implements View.OnClickListener, On
                 if (checkPass()){
                     break;
                 }
-                //mUser = new UserEntity(mLogin, mPass, mName, mSurname);
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                mUser = new UserEntity(mLogin, mPass, mName, mSurname);
+
                 mApi.register(mUser);
 
                 break;
